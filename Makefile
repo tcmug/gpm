@@ -26,7 +26,7 @@ osx:
 	$(MAKE) gpm CFLAGS="-mmacosx-version-min=10.7 -arch x86_64" LDFLAGS="-mmacosx-version-min=10.7 -arch x86_64"
 
 linux:
-	$(MAKE) gpm CFLAGS="-arch x86_64" LDFLAGS="-arch x86_64"
+	$(MAKE) gpm CFLAGS="-m64" LDFLAGS="-m64"
 
 # Link
 gpm: $(MAIN_OBJ)
