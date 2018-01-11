@@ -1,0 +1,122 @@
+---
+
+dependencies:
+
+  lua: 5.3.4
+  sdl2: 2.0.5
+  sdl2_mixer: 2.0.1
+
+  # lua:
+  #   name: lua
+  #   username: local
+  #   parameters:
+  #     version: 2.0.1
+
+  #   parameters:
+  #     version: 5.3.4
+  #   build:
+  #     default:
+  #       download:
+  #         url: https://www.lua.org/ftp/lua-$version.tar.gz
+  #         commands:
+  #           - tar xfz lua-$version.tar.gz
+  #           - rm lua-$version.tar.gz
+  #           - mv lua-$version lua
+  #       make:
+  #         commands:
+  #           - make -j$make_concurrency linux INSTALL_TOP=$root
+  #           - make install INSTALL_TOP=$root
+  #       unmake:
+  #         commands:
+  #           - make uninstall INSTALL_TOP=$root
+  #           - make clean
+
+  #     darwin:
+  #       make:
+  #         commands:
+  #           - make -j$make_concurrency generic CC="g++" INSTALL_TOP=$root
+  #           - make install INSTALL_TOP=$root
+
+
+
+  sdl2_ttf:
+    name: sdl2_ttf
+    username: local
+    parameters:
+      version: 2.0.14
+    build:
+      default:
+        download:
+          url: https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-$version.tar.gz
+          commands:
+            - tar xfz SDL2_ttf-$version.tar.gz
+            - rm SDL2_ttf-$version.tar.gz
+            - mv SDL2_ttf-$version sdl2_ttf
+        make:
+          commands:
+            - ./configure --prefix=$root
+            - make -j$make_concurrency
+            - make install
+
+
+  sdl2_image:
+    name: sdl2_image
+    username: local
+    parameters:
+      version: 2.0.1
+    build:
+      default:
+        download:
+          url: https://www.libsdl.org/projects/SDL_image/release/SDL2_image-$version.tar.gz
+          commands:
+            - tar xfz SDL2_image-$version.tar.gz
+            - rm SDL2_image-$version.tar.gz
+            - mv SDL2_image-$version sdl2_image
+        make:
+          commands:
+            - ./configure --prefix=$root
+            - make -j$make_concurrency
+            - make install
+
+  glm:
+    name: glm
+    username: local
+    build:
+      default:
+        download:
+          git: https://github.com/g-truc/glm.git
+          checkout:  0.9.8.4
+        make:
+          commands:
+            - ln -s $package_path/glm/glm $root/include/glm
+        unmake:
+          commands:
+            - rm $root/include/glm
+
+
+  bullet:
+    name: bulletphysics
+    username: local
+    build:
+      default:
+        download:
+          git: https://github.com/bulletphysics/bullet3.git
+          checkout: "2.87"
+        make:
+          dir: bullet-build
+          commands:
+            - cmake .. -G "Unix Makefiles" -DBUILD_SHARED_LIBS:BOOL=ON -DBUILD_DEMOS:BOOL=OFF -DINSTALL_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=$root -DCMAKE_INSTALL_RPATH=$root
+            - make -j$make_concurrency
+            - make install
+        unmake:
+            - xargs rm < install_manifest.txt
+            - make clean
+make:
+  commands:
+  - make -j$make_concurrency ROOT="$root" CFLAGS="-I./dependencies/include" LDFLAGS="-L./dependencies/lib"
+
+remake:
+  commands:
+  - make clean
+  - make -j$make_concurrency ROOT="$root" CFLAGS="-I./dependencies/include" LDFLAGS="-L./dependencies/lib"
+
