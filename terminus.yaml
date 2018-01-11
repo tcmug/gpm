@@ -4,7 +4,7 @@ dependencies:
 
   lua: 5.3.4
   sdl2: 2.0.5
-  sdl2_mixer: 2.0.1
+  # sdl2_mixer: 2.0.1
 
   # lua:
   #   name: lua
@@ -57,7 +57,11 @@ dependencies:
             - ./configure --prefix=$root
             - make -j$make_concurrency
             - make install
-
+        linux:
+          commands:
+            - ./configure -fPCI --prefix=$root
+            - make -j$make_concurrency
+            - make install
 
   sdl2_image:
     name: sdl2_image
@@ -78,6 +82,30 @@ dependencies:
             - make -j$make_concurrency
             - make install
 
+
+  sdl2_mixer:
+    name: sdl2_mixer
+    username: local
+    parameters:
+      version: 2.0.1
+    build:
+      default:
+        download:
+          url: https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-$version.tar.gz
+          commands:
+            - tar xfz SDL2_mixer-$version.tar.gz
+            - rm SDL2_image-$version.tar.gz
+            - mv SDL2_image-$version sdl2_mixer
+        make:
+          commands:
+            - ./configure --prefix=$root
+            - make -j$make_concurrency
+            - make install
+        linux:
+          commands:
+            - ./configure -fPCI --prefix=$root
+            - make -j$make_concurrency
+            - make install
   glm:
     name: glm
     username: local
