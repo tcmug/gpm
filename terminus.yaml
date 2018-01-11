@@ -40,6 +40,7 @@ dependencies:
 
   sdl2:
     name: sdl2
+    username: local
     parameters:
       version: 2.0.5
     build:
@@ -58,7 +59,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure --disable-shared --enable-static --prefix=$root --exec-prefix=$root --disable-rpath -fPCI
+            - ./configure --disable-shared --enable-static --prefix=$root --exec-prefix=$root --disable-rpath CFLAGS=-fPCI LDFLAGS=-fPCI
             - make -j$make_concurrency
             - make install
 
@@ -84,7 +85,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure -fPCI --prefix=$root
+            - ./configure CFLAGS=-fPCI LDFLAGS=-fPCI --prefix=$root
             - make -j$make_concurrency
             - make install
 
@@ -109,7 +110,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure -fPCI --prefix=$root
+            - ./configure CFLAGS=-fPCI LDFLAGS=-fPCI --prefix=$root
             - make -j$make_concurrency
             - make install
 
@@ -135,7 +136,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure -fPCI --prefix=$root
+            - ./configure CFLAGS=-fPCI LDFLAGS=-fPCI --prefix=$root
             - make -j$make_concurrency
             - make install
   glm:
