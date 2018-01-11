@@ -3,7 +3,7 @@
 dependencies:
 
   lua: 5.3.4
-  sdl2: 2.0.5
+  # sdl2: 2.0.5
   # sdl2_mixer: 2.0.1
 
   # lua:
@@ -37,6 +37,30 @@ dependencies:
   #           - make -j$make_concurrency generic CC="g++" INSTALL_TOP=$root
   #           - make install INSTALL_TOP=$root
 
+
+  sdl2:
+    name: sdl2
+    parameters:
+      version: 2.0.5
+    build:
+      default:
+        download:
+          url: https://www.libsdl.org/release/SDL2-$version.tar.gz
+          commands:
+            - tar xfz SDL2-$version.tar.gz
+            - rm SDL2-$version.tar.gz
+            - mv SDL2-$version sdl2
+        make:
+          commands:
+            - ./configure --disable-shared --enable-static --prefix=$root --exec-prefix=$root --disable-rpath
+            - make -j$make_concurrency
+            - make install
+      linux:
+        make:
+          commands:
+            - ./configure --disable-shared --enable-static --prefix=$root --exec-prefix=$root --disable-rpath -fPCI
+            - make -j$make_concurrency
+            - make install
 
 
   sdl2_ttf:
@@ -101,8 +125,8 @@ dependencies:
           url: https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-$version.tar.gz
           commands:
             - tar xfz SDL2_mixer-$version.tar.gz
-            - rm SDL2_image-$version.tar.gz
-            - mv SDL2_image-$version sdl2_mixer
+            - rm SDL2_mixer-$version.tar.gz
+            - mv SDL2_mixer-$version sdl2_mixer
         make:
           commands:
             - ./configure --prefix=$root
