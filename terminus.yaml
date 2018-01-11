@@ -57,7 +57,8 @@ dependencies:
             - ./configure --prefix=$root
             - make -j$make_concurrency
             - make install
-        linux:
+      linux:
+        make:
           commands:
             - ./configure -fPCI --prefix=$root
             - make -j$make_concurrency
@@ -81,6 +82,12 @@ dependencies:
             - ./configure --prefix=$root
             - make -j$make_concurrency
             - make install
+      linux:
+        make:
+          commands:
+            - ./configure -fPCI --prefix=$root
+            - make -j$make_concurrency
+            - make install
 
 
   sdl2_mixer:
@@ -101,7 +108,8 @@ dependencies:
             - ./configure --prefix=$root
             - make -j$make_concurrency
             - make install
-        linux:
+      linux:
+        make:
           commands:
             - ./configure -fPCI --prefix=$root
             - make -j$make_concurrency
