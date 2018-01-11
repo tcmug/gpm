@@ -59,7 +59,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure --disable-shared --enable-static --prefix=$root --exec-prefix=$root --disable-rpath CFLAGS=-fPCI LDFLAGS=-fPCI
+            - ./configure --disable-shared --enable-static --prefix=$root --exec-prefix=$root --disable-rpath CFLAGS=-fPIC LDFLAGS=-fPIC
             - make -j$make_concurrency
             - make install
 
@@ -85,7 +85,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure CFLAGS=-fPCI LDFLAGS=-fPCI --prefix=$root
+            - ./configure --prefix=$root CFLAGS=-fPIC LDFLAGS=-fPIC
             - make -j$make_concurrency
             - make install
 
@@ -110,7 +110,7 @@ dependencies:
       linux:
         make:
           commands:
-            - ./configure CFLAGS=-fPCI LDFLAGS=-fPCI --prefix=$root
+            - ./configure --prefix=$root CFLAGS=-fPIC LDFLAGS=-fPIC
             - make -j$make_concurrency
             - make install
 
@@ -133,14 +133,24 @@ dependencies:
             - ./configure --prefix=$root
             - make -j$make_concurrency
             - make install
+      darwin:
+        make:
+          commands:
+            - ./configure --prefix=$root
+            - make -j$make_concurrency
+            - make install
       linux:
         make:
           commands:
-            - ./configure CFLAGS=-fPCI LDFLAGS=-fPCI --prefix=$root
+            - ./configure --prefix=$root CFLAGS=-fPIC LDFLAGS=-fPIC
             - make -j$make_concurrency
             - make install
+
+
   glm:
     name: glm
+    parameters:
+      version: 0.9.8.4
     username: local
     build:
       default:
@@ -157,6 +167,8 @@ dependencies:
 
   bullet:
     name: bulletphysics
+    parameters:
+      version: "2.87"
     username: local
     build:
       default:
